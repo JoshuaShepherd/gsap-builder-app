@@ -1,0 +1,440 @@
+/* TrailGuide Map - Vector-First Theming System */
+
+/* Base Map Styles */
+.trailguide-map {
+  /* CSS Custom Properties for Dynamic Theming */
+  --map-background: #f8fafc;
+  --map-primary: #1e40af;
+  --map-secondary: #64748b;
+  --map-accent: #3b82f6;
+  --map-text: #1e293b;
+  --map-trail: #2563eb;
+  --map-waypoint: #0ea5e9;
+  --map-landmark: #6b7280;
+  --map-grid: rgba(100, 116, 139, 0.3);
+  
+  /* Base map container */
+  background: var(--map-background);
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Layer System */
+.regions-layer {
+  z-index: 1;
+}
+
+.trails-layer {
+  z-index: 2;
+}
+
+.elements-layer {
+  z-index: 3;
+}
+
+.labels-layer {
+  z-index: 4;
+}
+
+.hud-layer {
+  z-index: 5;
+}
+
+/* Region Styles */
+.region {
+  fill: var(--map-background);
+  stroke: var(--map-secondary);
+  stroke-width: 1;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.region:hover {
+  opacity: 1;
+  stroke-width: 2;
+}
+
+.region.applications {
+  --region-fill: #eff6ff;
+  --region-stroke: #2563eb;
+}
+
+.region.people {
+  --region-fill: #f0fdf4;
+  --region-stroke: #16a34a;
+}
+
+.region.principles {
+  --region-fill: #faf5ff;
+  --region-stroke: #9333ea;
+}
+
+.region.strategy {
+  --region-fill: #fef2f2;
+  --region-stroke: #dc2626;
+}
+
+/* Trail Styles */
+.trail {
+  stroke: var(--map-trail);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.trail:hover {
+  stroke-width: 5;
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.trail.primary {
+  stroke-width: 4;
+  stroke: var(--map-primary);
+}
+
+.trail.secondary {
+  stroke-width: 2;
+  stroke: var(--map-secondary);
+  stroke-dasharray: 5, 5;
+}
+
+.trail.interactive:hover {
+  stroke-width: 6;
+  animation: trail-pulse 2s infinite;
+}
+
+@keyframes trail-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Waypoint Styles */
+.waypoint {
+  --waypoint-fill: var(--map-waypoint);
+  --waypoint-stroke: var(--map-primary);
+  --waypoint-inner: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.waypoint:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+}
+
+.waypoint.milestone {
+  --waypoint-fill: #3b82f6;
+  --waypoint-stroke: #1e40af;
+}
+
+.waypoint.checkpoint {
+  --waypoint-fill: #10b981;
+  --waypoint-stroke: #047857;
+}
+
+.waypoint.destination {
+  --waypoint-fill: #f59e0b;
+  --waypoint-stroke: #d97706;
+}
+
+.waypoint.completed {
+  --waypoint-fill: #22c55e;
+  --waypoint-stroke: #15803d;
+}
+
+.waypoint.current {
+  animation: waypoint-highlight 2s infinite;
+}
+
+@keyframes waypoint-highlight {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* Landmark Styles */
+.landmark {
+  --landmark-fill: var(--map-landmark);
+  --landmark-stroke: var(--map-secondary);
+  --landmark-accent: #9ca3af;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.landmark:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.landmark.mountain {
+  --landmark-fill: #6b7280;
+  --landmark-stroke: #374151;
+}
+
+.landmark.tree {
+  --landmark-fill: #10b981;
+  --landmark-stroke: #047857;
+  --landmark-trunk: #8b5cf6;
+  --landmark-foliage: #10b981;
+  --landmark-foliage-inner: #34d399;
+}
+
+.landmark.river {
+  --landmark-water: #06b6d4;
+  --landmark-water-light: #67e8f9;
+}
+
+.landmark.signpost {
+  --landmark-post: #8b5cf6;
+  --landmark-sign: #f3f4f6;
+}
+
+/* Label Styles */
+.label {
+  fill: var(--map-text);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-anchor: middle;
+  pointer-events: none;
+  user-select: none;
+}
+
+.label.title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.label.subtitle {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.label.trail-name {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* HUD Styles */
+.hud {
+  --hud-bg: var(--map-background);
+  --hud-border: var(--map-secondary);
+  --hud-text: var(--map-text);
+  --hud-north: #ef4444;
+  --hud-south: #6b7280;
+}
+
+.hud.compass {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.hud.legend {
+  background: var(--hud-bg);
+  border: 1px solid var(--hud-border);
+  border-radius: 8px;
+  padding: 12px;
+  backdrop-filter: blur(8px);
+}
+
+/* CTA and Interactive Elements */
+.cta-marker {
+  --cta-bg: #8b5cf6;
+  --cta-border: #7c3aed;
+  --cta-inner: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cta-marker:hover {
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 12px var(--cta-bg));
+}
+
+.interactive {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interactive:hover {
+  filter: brightness(1.1) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* Animation States */
+.animated {
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.draw-in {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: draw-path var(--animation-duration, 2s) ease-out forwards;
+}
+
+@keyframes draw-path {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fade-in-scale var(--animation-duration, 0.6s) ease-out forwards;
+}
+
+@keyframes fade-in-scale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Theme Variants */
+.theme-professional {
+  --map-background: #f8fafc;
+  --map-primary: #1e40af;
+  --map-secondary: #64748b;
+  --map-accent: #3b82f6;
+  --map-text: #1e293b;
+  --map-trail: #2563eb;
+  --map-waypoint: #0ea5e9;
+  --map-landmark: #6b7280;
+}
+
+.theme-educational {
+  --map-background: #f0fdf4;
+  --map-primary: #059669;
+  --map-secondary: #78716c;
+  --map-accent: #10b981;
+  --map-text: #14532d;
+  --map-trail: #16a34a;
+  --map-waypoint: #22c55e;
+  --map-landmark: #84cc16;
+}
+
+.theme-community {
+  --map-background: #faf5ff;
+  --map-primary: #7c3aed;
+  --map-secondary: #a1a1aa;
+  --map-accent: #8b5cf6;
+  --map-text: #581c87;
+  --map-trail: #9333ea;
+  --map-waypoint: #a855f7;
+  --map-landmark: #c084fc;
+}
+
+.theme-creative {
+  --map-background: #fef2f2;
+  --map-primary: #dc2626;
+  --map-secondary: #f59e0b;
+  --map-accent: #ef4444;
+  --map-text: #7f1d1d;
+  --map-trail: #f97316;
+  --map-waypoint: #fb923c;
+  --map-landmark: #fbbf24;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .label {
+    font-size: 12px;
+  }
+  
+  .label.title {
+    font-size: 16px;
+  }
+  
+  .waypoint {
+    transform: scale(0.8);
+  }
+  
+  .landmark {
+    transform: scale(0.7);
+  }
+  
+  .trail {
+    stroke-width: 2;
+  }
+  
+  .trail.primary {
+    stroke-width: 3;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animated,
+  .trail,
+  .waypoint,
+  .landmark,
+  .interactive {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  .draw-in {
+    stroke-dashoffset: 0;
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .trail {
+    stroke-width: 4;
+  }
+  
+  .waypoint {
+    stroke-width: 3;
+  }
+  
+  .landmark {
+    stroke-width: 2;
+    opacity: 1;
+  }
+  
+  .label {
+    font-weight: 700;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .trailguide-map {
+    background: white;
+    color: black;
+  }
+  
+  .animated,
+  .interactive {
+    animation: none;
+    transition: none;
+  }
+  
+  .trail {
+    stroke: black;
+    stroke-width: 2;
+  }
+  
+  .waypoint,
+  .landmark {
+    fill: black;
+    stroke: black;
+  }
+  
+  .label {
+    fill: black;
+  }
+}

@@ -1,0 +1,884 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Georgia:wght@400;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap");
+
+/* TrailGuide Map Styles */
+@import "../styles/trailguide-map.css";
+
+/* Root and Box Model Resets (NEW: from provided base) */
+html {
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  text-size-adjust: none;
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+@media (prefers-reduced-motion) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+}
+
+/* Font Variables for literary-focused design */
+body {
+  --text-font-family: "Crimson Text", "Georgia", "Times New Roman", serif;
+  --heading-font-family: "Inter", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --code-font-family: "Fira Mono", "Menlo", "Consolas", monospace;
+}
+
+/* CSS Variables: Literary-focused color palette */
+:root {
+  /* Literary color scheme - inspired by classic books and parchment */
+  --surface: #fefefe; /* pure white for clean reading */
+  --muted: #f8f6f3; /* warm off-white, like aged paper */
+  --muted-foreground: #2c2c2c; /* dark charcoal for excellent readability */
+  --border: #e8e5e0; /* subtle warm gray borders */
+  --accent: #8b4513; /* warm brown for subtle accents */
+  --accent-hover: #a0522d; /* slightly lighter brown for hover */
+  --radius: 0.375rem; /* softer, more traditional radius */
+
+  /* Sidebar tokens - clean and unobtrusive */
+  --sidebar-background: #ffffff; /* Pure white sidebar */
+  --sidebar-foreground: #2c2c2c; /* Dark charcoal text in sidebar */
+  --sidebar-border: #e8e5e0; /* Warm border */
+  --background: #ffffff; /* Pure white background */
+  --foreground: #2c2c2c; /* Dark charcoal text for excellent contrast */
+  --card: #ffffff; /* Pure white cards */
+  --card-foreground: #2c2c2c; /* Dark charcoal text on cards */
+  --popover: #ffffff; /* White popovers */
+  --popover-foreground: #000000; /* Black text on popovers */
+  --primary: #a855f7; /* Purple primary */
+  --primary-foreground: #ffffff; /* White text on primary elements */
+  --secondary: #f1f5f9; /* Light gray secondary */
+  --secondary-foreground: #000000; /* Black text on secondary elements */
+  --accent-foreground: #ffffff; /* White text on accent elements */
+  --destructive: #ef4444; /* Red destructive actions */
+  --input: #f8f9fa; /* Light gray input background */
+  --ring: #a1a1aa; /* Gray ring focus */
+  --chart-1: #3b82f6; /* Blue chart color */
+  --chart-2: #10b981; /* Green chart color */
+  --chart-3: #8b5cf6; /* Purple chart color */
+  --chart-4: #f59e0b; /* Orange chart color */
+  --chart-5: #ef4444; /* Red chart color */
+  --sidebar: #fafaf9; /* Light sidebar background */
+  --sidebar-primary: #18181b; /* Dark sidebar primary */
+  --sidebar-primary-foreground: #fafaf9; /* Light sidebar text */
+  --sidebar-accent: #f4f4f5; /* Light sidebar accent */
+  --sidebar-accent-foreground: #18181b; /* Dark sidebar accent text */
+  --sidebar-ring: #a1a1aa; /* Gray sidebar ring */
+}
+
+body,
+.dark {
+  --background: #ffffff; /* White background */
+  --foreground: #000000; /* Black text */
+  --surface: #f8f9fa; /* Light gray surface */
+  --muted: #f1f5f9; /* Light gray muted */
+  --muted-foreground: #000000; /* Black text */
+  --border: #e2e8f0; /* Light border */
+  --accent: #a855f7; /* Purple accent */
+  --accent-hover: #9333ea; /* Darker purple hover */
+  --sidebar-background: #ffffff; /* White sidebar */
+  --sidebar-foreground: #000000; /* Black sidebar text */
+  --sidebar-border: #e2e8f0; /* Light border */
+}
+
+/* --- New: Accessibility & global improvements --- */
+a,
+button,
+input,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Only style links that don't have Tailwind text color classes */
+a:not([class*="text-"]) {
+  color: var(--accent);
+  font-weight: 600;
+  transition: color 0.18s;
+}
+a:not([class*="text-"]):hover,
+a:not([class*="text-"]):focus-visible {
+  color: var(--accent-hover);
+  outline: none;
+}
+
+hr {
+  border: 0;
+  box-sizing: initial;
+  display: block;
+  height: 0.05rem;
+  border-bottom: 0.05rem solid var(--border, #eee);
+  margin: 1.5em 0;
+}
+
+small {
+  font-size: 80%;
+}
+sub,
+sup {
+  line-height: 1em;
+}
+
+img,
+svg,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tables: combine improved and app styles */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  background-color: var(--background);
+  border: 0.05rem solid var(--border, #333);
+  border-radius: 0.1rem;
+  font-size: 0.95em;
+  overflow: auto;
+  margin-bottom: 2em;
+}
+th,
+td {
+  font-weight: 400;
+  vertical-align: top;
+  padding: 0.9375em 1.25em;
+}
+th {
+  font-weight: 700;
+  text-align: left;
+}
+tbody tr:hover {
+  background-color: var(--surface);
+}
+
+/* Literary Typography - Emphasizing readability and contemplation */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  color: #1a1a1a; /* Near-black for headings with slight warmth */
+  margin-bottom: 0.75em;
+  margin-top: 2em;
+  letter-spacing: -0.025em; /* Tighter spacing for elegance */
+  line-height: 1.2; /* Compact line height for headings */
+}
+
+/* Hierarchy optimized for literary content */
+h1 {
+  font-size: 2.25rem; /* Larger, more commanding presence */
+  line-height: 1.1;
+  margin-top: 0; /* Remove top margin for page titles */
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+}
+h2 {
+  font-size: 1.875rem;
+  line-height: 1.15;
+  margin-top: 3rem; /* More generous spacing for sections */
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.5rem;
+}
+h3 {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-top: 2.5rem;
+}
+h4 {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  margin-top: 2rem;
+}
+h5,
+h6 {
+  font-size: 1.125rem;
+  line-height: 1.4;
+  margin-top: 1.5rem;
+}
+
+/* Body text optimized for reading */
+p,
+ul,
+ol,
+li,
+label,
+blockquote {
+  font-family: var(--text-font-family);
+  color: #2c2c2c; /* Warm dark gray for extended reading */
+  font-family: var(--text-font-family);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.25em;
+}
+
+ul,
+ol {
+  padding-left: 1.25em;
+  margin: 0 0 1em 0;
+}
+li {
+  margin-bottom: 0.5em;
+}
+ul ul,
+ul ol,
+ol ul,
+ol ol {
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
+}
+
+blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 1.4em;
+  border-left: 3px solid var(--accent);
+  color: var(--muted-foreground);
+  background: var(--muted);
+  font-style: italic;
+  opacity: 0.95;
+  margin: 1.5em 0;
+  border-radius: var(--radius);
+  position: relative;
+}
+
+/* Literary enhancements for contemplative reading */
+.prose {
+  max-width: 65ch; /* Optimal reading line length */
+  font-family: var(--text-font-family);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #2c2c2c;
+}
+
+.prose p {
+  margin-bottom: 1.5em;
+  text-align: justify; /* For book-like appearance */
+  hyphens: auto; /* Improved text flow */
+}
+
+.prose p:first-child {
+  font-size: 1.2em; /* Slightly larger opening paragraph */
+  margin-bottom: 1.75em;
+}
+
+/* Drop caps for chapter beginnings */
+.prose .drop-cap::first-letter {
+  float: left;
+  font-size: 3.5em;
+  line-height: 0.8;
+  margin: 0.1em 0.1em 0 0;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+/* Literary quotations */
+.prose blockquote {
+  font-style: italic;
+  font-size: 1.1em;
+  margin: 2em 0;
+  padding: 1.5em;
+  background: var(--muted);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  position: relative;
+}
+
+.prose blockquote::before {
+  content: '"';
+  font-size: 4em;
+  color: var(--accent);
+  position: absolute;
+  top: -0.5em;
+  left: 0.25em;
+  opacity: 0.3;
+}
+
+/* Code Styling (merge and harmonize) */
+code,
+kbd,
+pre {
+  font-family: var(--code-font-family);
+  color: #000000; /* Black code text */
+  font-feature-settings: "kern";
+  font-variant-ligatures: none;
+  background: var(--surface);
+}
+code {
+  border-radius: 0.1rem;
+  font-size: 0.95em;
+  padding: 0 0.3em;
+}
+pre {
+  display: block;
+  overflow-x: auto;
+  padding: 1.2em;
+  line-height: 1.4;
+  background: var(--surface);
+  border-radius: 0.1rem;
+  margin: 1.75em 0;
+}
+kbd {
+  background: #fafafa;
+  border-radius: 0.1rem;
+  color: #000000;
+  padding: 0 0.7em;
+  font-size: 0.8em;
+} /* Black kbd text */
+
+/* Buttons & Inputs (merge resets and app button styles) */
+button:not([class*="bg-"]) {
+  background: transparent;
+  border: 0;
+  font-family: inherit;
+  font-size: inherit;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+input {
+  border: 0;
+  outline: none;
+  font-family: inherit;
+  font-size: inherit;
+}
+label {
+  font-family: inherit;
+  font-size: inherit;
+}
+input,
+textarea,
+select {
+  background-color: var(--background);
+  border: 2px solid var(--border);
+  color: var(--foreground);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1.05rem;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--accent);
+  outline: none;
+}
+
+/* Accessibility and Focus */
+[tabindex]:focus-visible,
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-fg-color, #6366f1);
+  outline-offset: 0.2rem;
+}
+
+/* Print Styles (merge) */
+@media print {
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #000;
+  }
+  table {
+    background: #fff;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: #000000; /* Black text by default */
+  font-family: var(--text-font-family);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Prose (tailwind-typography) overrides: All text = black, except links = purple, blockquote = muted */
+.prose,
+.prose :where(p, ul, ol, li, blockquote, pre, code, h1, h2, h3, h4, h5, h6, a) {
+  color: #000000; /* Black text for all prose elements */
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.prose :where(a):hover {
+  color: var(--accent);
+}
+.prose :where(h1, h2, h3, h4, h5, h6) {
+  color: #000000;
+} /* Black headings */
+.prose :where(blockquote) {
+  border-left: 4px solid #a855f7; /* Purple left border for accent */
+  color: #374151; /* Dark gray text for better contrast */
+  background: #f9fafb; /* Light gray background */
+  font-style: italic;
+  padding: 1.5em;
+  border-radius: 0.5rem;
+  margin: 1.5em 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.prose :where(code, pre) {
+  background: var(--surface);
+  color: #000000; /* Black code text */
+  border-radius: 0.375rem;
+}
+
+blockquote {
+  border-left: 4px solid #a855f7; /* Purple left border for accent */
+  color: #374151; /* Dark gray text for better contrast */
+  background: #f9fafb; /* Light gray background */
+  padding: 1.5em;
+  font-style: italic;
+  margin: 1.5em 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+hr {
+  border-color: var(--border);
+  margin: 2.5em 0;
+}
+
+code,
+pre {
+  font-family: var(--code-font-family);
+  background: var(--surface);
+  color: #000000; /* Black code text */
+  border-radius: 0.375rem;
+  padding: 0.2em 0.45em;
+}
+
+pre {
+  padding: 1.2em;
+  overflow-x: auto;
+  margin: 1.75em 0;
+}
+
+input,
+textarea,
+select {
+  background-color: var(--background);
+  border: 2px solid var(--border);
+  color: #000000; /* Black input text */
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 1.05rem;
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1.5px var(--accent);
+  outline: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: var(--muted);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #34343c;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 2em;
+  font-size: 1rem;
+}
+th,
+td {
+  border-bottom: 1px solid var(--muted);
+  padding: 0.75em 1.1em;
+}
+
+img {
+  border-radius: 12px;
+  margin: 1.4em 0;
+  max-width: 100%;
+}
+
+mark {
+  background: var(--surface);
+  color: var(--accent);
+  padding: 0.15em 0.3em;
+  border-radius: 3px;
+}
+
+/* Buttons: Custom purple color, bold white text, subtle hover, glowing border effect for nav */
+.btn,
+.btn-primary {
+  background: #a855f7;
+  color: #fff;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  padding: 0.65em 1.3em;
+  font-size: 1.1rem;
+  transition:
+    background 0.17s,
+    color 0.16s;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn.navbar-hover,
+.btn-primary.navbar-hover {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+.btn.navbar-hover::after,
+.btn-primary.navbar-hover::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa, #6366f1, #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(3px);
+}
+.btn.navbar-hover:hover::after,
+.btn-primary.navbar-hover:hover::after {
+  opacity: 1;
+}
+.btn:hover,
+.btn-primary:hover {
+  background: #9333ea;
+}
+
+/* Outlined/ghost buttons: subtle border, grayscale only, purple text on hover */
+.btn-outline {
+  background: transparent;
+  color: var(--foreground);
+  border: 1.5px solid var(--border);
+  font-weight: 600;
+  transition:
+    color 0.18s,
+    border-color 0.18s,
+    background 0.18s;
+}
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background: var(--surface);
+  color: var(--accent);
+  border-color: var(--accent);
+  outline: none;
+}
+
+/* Sidebar: fixed width, no collapse on hover, bold white active text, muted inactive */
+.sidebar {
+  background: var(--sidebar-background);
+  color: var(--sidebar-foreground);
+  width: 288px;
+  min-width: 288px;
+  border-right: 1.5px solid var(--sidebar-border);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+.sidebar .sidebar-topbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  border-bottom: 1.5px solid var(--sidebar-border);
+}
+.sidebar .sidebar-toc {
+  flex: 1;
+  overflow-y: auto;
+  margin: 1.5em 0 0 0;
+}
+.sidebar .active {
+  color: #fff;
+  background: var(--surface);
+  font-weight: 700;
+  border-radius: 0.4em;
+}
+.sidebar .inactive {
+  color: var(--muted-foreground);
+  font-weight: 500;
+}
+
+/* Mobile sidebar */
+@media (max-width: 900px) {
+  .sidebar {
+    position: fixed;
+    z-index: 40;
+    left: 0;
+    top: 0;
+    width: 92vw;
+    min-width: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.27s cubic-bezier(0.7, 0, 0.3, 1);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* Icon coloring - grayscale or accent only */
+.icon {
+  color: var(--muted-foreground);
+}
+.icon-accent {
+  color: var(--accent);
+}
+
+/* CSS Variables for design system - compatible with Tailwind v3 */
+:root {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+.dark {
+  --background: #1a1a1a; /* Dark background */
+  --foreground: #fafaf9; /* Light text in dark mode */
+  --card: #27272a; /* Dark card background */
+  --card-foreground: #fafaf9; /* Light card text */
+  --popover: #27272a; /* Dark popover background */
+  --popover-foreground: #fafaf9; /* Light popover text */
+  --primary: #f4f4f5; /* Light primary in dark mode */
+  --primary-foreground: #27272a; /* Dark text on light primary */
+  --secondary: #3f3f46; /* Dark secondary */
+  --secondary-foreground: #fafaf9; /* Light text on dark secondary */
+  --muted: #3f3f46; /* Dark muted */
+  --muted-foreground: #a1a1aa; /* Gray muted text */
+  --accent: #3f3f46; /* Dark accent */
+  --accent-foreground: #fafaf9; /* Light text on dark accent */
+  --destructive: #dc2626; /* Red destructive in dark mode */
+  --border: rgba(255, 255, 255, 0.1); /* Translucent border */
+  --input: rgba(255, 255, 255, 0.15); /* Translucent input */
+  --ring: #71717a; /* Gray ring in dark mode */
+  --chart-1: #6366f1; /* Purple chart color */
+  --chart-2: #10b981; /* Green chart color */
+  --chart-3: #f59e0b; /* Orange chart color */
+  --chart-4: #8b5cf6; /* Purple chart color */
+  --chart-5: #ef4444; /* Red chart color */
+  --sidebar: #27272a; /* Dark sidebar */
+  --sidebar-foreground: #fafaf9; /* Light sidebar text */
+  --sidebar-primary: #6366f1; /* Purple sidebar primary */
+  --sidebar-primary-foreground: #fafaf9; /* Light sidebar primary text */
+  --sidebar-accent: #3f3f46; /* Dark sidebar accent */
+  --sidebar-accent-foreground: #fafaf9; /* Light sidebar accent text */
+  --sidebar-border: rgba(255, 255, 255, 0.1); /* Translucent sidebar border */
+  --sidebar-ring: #71717a; /* Gray sidebar ring */
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+    outline-color: hsl(var(--ring) / 0.5);
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: #000000 !important; /* Force black text on body */
+  }
+
+  /* GLOBAL DEFAULT: Make ALL text black/dark by default */
+  *,
+  *::before,
+  *::after {
+    color: #000000;
+  }
+
+  /* Force black text on all common elements */
+  div,
+  span,
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  a,
+  li,
+  td,
+  th,
+  button,
+  input,
+  textarea,
+  select,
+  label {
+    color: #000000;
+  }
+
+  /* Preserve specific element colors that should remain colored */
+  a:not([class*="text-"]) {
+    color: var(--accent);
+  }
+
+  /* Ensure form elements have proper contrast */
+  input,
+  textarea,
+  select {
+    color: #000000;
+  }
+
+  /* Only style buttons that don't have color classes */
+  button:not([class*="text-"]):not([class*="bg-"]) {
+    color: #000000;
+  }
+
+  /* Make sure shadcn/ui components respect the black default */
+  [role="tab"],
+  [role="tabpanel"],
+  [role="button"],
+  [data-state],
+  [data-orientation] {
+    color: #000000;
+  }
+
+  /* Target specific shadcn/ui component classes */
+  .group,
+  .flex,
+  .grid,
+  .space-y-6,
+  .space-y-4,
+  .space-y-3,
+  .space-y-2 {
+    color: #000000;
+  }
+  :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.animate-blink {
+  animation: blink 1s step-start infinite;
+}
+
+textarea {
+  resize: both !important;
+}
+
+/* Progress Bar Vulnerability Colors */
+.progress-green .bg-primary {
+  background-color: #22c55e;
+}
+
+.progress-yellow .bg-primary {
+  background-color: #eab308;
+}
+
+.progress-red .bg-primary {
+  background-color: #ef4444;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+blockquote,
+.prose blockquote,
+.prose :where(blockquote) {
+  border-left: 4px solid #a855f7 !important;
+  color: #374151 !important;
+  background: #f9fafb !important;
+  font-style: italic !important;
+  padding: 1.5em !important;
+  border-radius: 0.5rem !important;
+  margin: 1.5em 0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

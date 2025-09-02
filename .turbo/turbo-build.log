@@ -1,0 +1,12 @@
+
+> gsap-builder-app@0.1.0 build
+> next build
+
+[1G[0K[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m Lifecycle script `build` failed with error:
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcode[39m [33m130[39m
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mpath[39m /Users/joshshepherd/Desktop/GitHub/monorepo/apps/gsap-builder-app
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mworkspace[39m gsap-builder-app@0.1.0
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mlocation[39m /Users/joshshepherd/Desktop/GitHub/monorepo/apps/gsap-builder-app
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m command failed
+[1G[0K⠙[1G[0K[1mnpm[22m [31merror[39m [94mcommand[39m sh -c next build
+[1G[0K⠙[1G[0K
