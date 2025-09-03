@@ -67,8 +67,15 @@ export default function PathTestPage() {
         gsap.set(path, {
           strokeDasharray: pathLength,
           strokeDashoffset: pathLength,
-          opacity: 0
+          opacity: 1 // Make path visible but not drawn
         });
+      });
+
+      // Initially hide the SVG container
+      gsap.set(svgElement, { 
+        opacity: 0, 
+        display: "none",
+        scale: 1 
       });
 
       // Create ScrollTrigger for this entire section
@@ -79,23 +86,40 @@ export default function PathTestPage() {
         scrub: 1,
         onUpdate: (self) => {
           const progress = self.progress;
+          const isActive = progress > 0 && progress < 1;
+          
+          console.log(`${section.name} section progress:`, progress, 'active:', isActive);
           
           // Show/hide the entire SVG based on scroll position
-          gsap.set(svgElement, {
-            opacity: progress > 0 && progress < 1 ? 1 : 0,
-            display: progress > 0 && progress < 1 ? "block" : "none"
-          });
-
-          // Draw paths progressively based on scroll progress
-          paths.forEach((path, pathIndex) => {
-            const pathLength = path.getTotalLength();
-            const pathProgress = Math.max(0, Math.min(1, progress * paths.length - pathIndex));
-            
-            gsap.set(path, {
-              opacity: pathProgress > 0 ? 1 : 0,
-              strokeDashoffset: pathLength * (1 - pathProgress)
+          if (isActive) {
+            gsap.set(svgElement, {
+              opacity: 1,
+              display: "block"
             });
-          });
+            
+            // Draw paths progressively based on scroll progress
+            paths.forEach((path, pathIndex) => {
+              const pathLength = path.getTotalLength();
+              // Each path starts drawing at pathIndex/4 of total progress
+              const pathStartProgress = pathIndex / paths.length;
+              const pathEndProgress = (pathIndex + 1) / paths.length;
+              
+              let pathProgress = 0;
+              if (progress >= pathStartProgress) {
+                pathProgress = Math.min(1, (progress - pathStartProgress) / (pathEndProgress - pathStartProgress));
+              }
+              
+              gsap.set(path, {
+                strokeDashoffset: pathLength * (1 - pathProgress),
+                opacity: pathProgress > 0 ? 1 : 0.3
+              });
+            });
+          } else {
+            gsap.set(svgElement, { 
+              opacity: 0, 
+              display: "none" 
+            });
+          }
         },
         onEnter: () => {
           console.log(`Entering ${section.name} section`);
@@ -152,36 +176,58 @@ export default function PathTestPage() {
         ].map((section, sectionIndex) => (
           <div
             key={sectionIndex}
-            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center pointer-events-none"
-            style={{ display: "none" }} // Initially hidden
+            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center pointer-events-none z-10"
+            style={{ 
+              display: "none", // Initially hidden
+              backgroundColor: "rgba(255,255,255,0.1)" // Slight background to see container
+            }}
           >
             <svg
               ref={(el) => {svgRefs.current[sectionIndex] = el;}}
-              width="1000"
-              height="1500"
               viewBox="0 0 1000 1500"
-              className="w-full h-full max-w-4xl"
+              className="w-full h-auto max-w-6xl"
               style={{ 
-                background: "transparent"
+                background: "rgba(0,0,0,0.05)", // Temporary background to see SVG bounds
+                border: "2px solid red" // Debug border
               }}
               preserveAspectRatio="xMidYMid meet"
             >
-              {/* Render paths for this section */}
-              {section.paths.map((pathData) => (
-                <path
-                  key={pathData.id}
-                  id={pathData.id}
-                  d={pathData.d}
-                  stroke={pathData.stroke}
-                  strokeWidth={pathData.strokeWidth}
-                  fill={pathData.fill}
-                  strokeLinecap={pathData.strokeLinecap as any}
-                  strokeLinejoin={pathData.strokeLinejoin as any}
-                  style={{
-                    vectorEffect: "non-scaling-stroke"
-                  }}
-                />
-              ))}
+              {/* Simple test paths that are definitely visible */}
+              <path
+                d="M 100 100 Q 200 200 300 300 Q 400 400 500 500"
+                stroke={section.paths[0]?.stroke || "#3b82f6"}
+                strokeWidth="8"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M 200 100 Q 300 200 400 300 Q 500 400 600 500"
+                stroke={section.paths[1]?.stroke || "#3b82f6"}
+                strokeWidth="8"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M 300 100 Q 400 200 500 300 Q 600 400 700 500"
+                stroke={section.paths[2]?.stroke || "#3b82f6"}
+                strokeWidth="8"
+                fill="none"
+                strokeLinecap="round"
+              />
+              <path
+                d="M 400 100 Q 500 200 600 300 Q 700 400 800 500"
+                stroke={section.paths[3]?.stroke || "#3b82f6"}
+                strokeWidth="8"
+                fill="none"
+                strokeLinecap="round"
+              />
+              
+              {/* Debug markers */}
+              <circle cx="100" cy="100" r="15" fill="red" />
+              <circle cx="800" cy="500" r="15" fill="blue" />
+              <text x="500" y="80" textAnchor="middle" fill="black" fontSize="24" fontWeight="bold">
+                {section.name} Section - Test Paths
+              </text>
             </svg>
             
             {/* Section title overlay */}
