@@ -406,17 +406,17 @@ gsap.fromTo(".animated-path",
                       value={canvasWidth}
                       onChange={(e) => {
                         const value = parseInt(e.target.value) || 800
-                        if (value >= 800 && value <= 2400) {
+                        if (value >= 800 && value <= 2500) {
                           setCanvasWidth(value)
                         }
                       }}
                       min={800}
-                      max={2400}
+                      max={2500}
                       step={100}
                       disabled={trails.length > 0}
                       className="bg-white"
                     />
-                    <p className="text-xs text-blue-600 mt-1">Range: 800-2400px</p>
+                    <p className="text-xs text-blue-600 mt-1">Range: 800-2500px</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium mb-2 block text-blue-800">
@@ -427,17 +427,17 @@ gsap.fromTo(".animated-path",
                       value={canvasHeight}
                       onChange={(e) => {
                         const value = parseInt(e.target.value) || 300
-                        if (value >= 300 && value <= 1200) {
+                        if (value >= 300 && value <= 2500) {
                           setCanvasHeight(value)
                         }
                       }}
                       min={300}
-                      max={1200}
+                      max={2500}
                       step={50}
                       disabled={trails.length > 0}
                       className="bg-white"
                     />
-                    <p className="text-xs text-blue-600 mt-1">Range: 300-1200px</p>
+                    <p className="text-xs text-blue-600 mt-1">Range: 300-2500px</p>
                   </div>
                 </div>
                 {trails.length > 0 && (
