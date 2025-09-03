@@ -65,6 +65,7 @@ Copy `.env.example` to `.env.local` and configure:
 - **Simple SVG** (`/simple-svg`) - Basic SVG manipulation tools
 - **SVG Path Maker** (`/svg-path-maker`) - Advanced SVG path creation
 - **Trailguide Map** (`/trailguide-map`) - Interactive mapping interface
+- **Path Test** (`/path-test`) - GSAP scroll-triggered SVG path drawing demo
 
 ## Project Structure
 
