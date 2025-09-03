@@ -20,6 +20,7 @@ This document tracks the deployment status of applications in this workspace.
 - Fixed incorrect `motion/react` imports → `framer-motion` across 5 components
 - Added proper TypeScript types for drag event handlers
 - Updated .gitignore to allow .env.example while protecting .env files
+- Removed empty README.app.md file during cleanup
 
 ### Features
 - GSAP animation tools and builders
