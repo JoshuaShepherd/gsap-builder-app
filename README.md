@@ -1,90 +1,140 @@
 # GSAP Builder App
 
-A powerful Next.js application for creating and testing GSAP animations with a comprehensive visual interface. Build complex animation sequences, test them instantly, and export production-ready code.
+A comprehensive Next.js application for building animations and interactive components with GSAP (GreenSock Animation Platform).
 
-## ✨ Features
+## Features
 
-- **Interactive Animation Builder**: Create GSAP animations with a visual interface
-- **Nature Trails Journey**: Animated SVG trails with scroll-triggered animations
-- **Simple SVG Builder**: Create and manipulate SVG elements with GSAP
-- **Real-time Preview**: See animations as you build them
-- **Code Export**: Generate production-ready GSAP code
+- **Modern Stack**: Built with Next.js 15.4.6, React 18, and TypeScript
+- **GSAP Integration**: Advanced animations with GSAP and MotionPath plugins
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Interactive Tools**: SVG path makers, trail guides, and animation builders
+- **Responsive**: Mobile-first design approach
+- **Multiple Demo Pages**: Nature trails, SVG tools, and interactive maps
 
-## 🚀 Prerequisites
+## Getting Started
 
-- **Node.js** 18+ (LTS recommended)
-- **npm** 9+
+### Prerequisites
 
-## 📦 Installation
+- Node.js 20 or later (LTS recommended)
+- npm (comes with Node.js)
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/JoshuaShepherd/gsap-builder-app.git
-   cd gsap-builder-app
-   ```
+### Installation
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+1. Clone this repository:
+```bash
+git clone https://github.com/JoshuaShepherd/gsap-builder-app.git
+cd gsap-builder-app
+```
 
-3. **Set up environment variables (optional)**
-   ```bash
-   cp .env.example .env.local
-   # Edit .env.local with your values if needed
-   ```
+2. Install dependencies:
+```bash
+npm install
+```
 
-## 🛠️ Development
+3. (Optional) Copy environment variables:
+```bash
+cp .env.example .env.local
+# Edit .env.local with your values if needed
+```
 
-**Start the development server:**
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-## 🏗️ Build
+## Available Scripts
 
-**Build for production:**
-```bash
-npm run build
-```
-
-**Start production server:**
-```bash
-npm run start
-```
-
-**Lint the codebase:**
-```bash
-npm run lint
-```
-
-## 🌍 Environment Variables
-
-Currently, this application doesn't require any environment variables for basic functionality. If you need to add any, use the `.env.example` template.
-
-## 🎯 Pages
-
-- **`/`** - Main GSAP Animation Builder
-- **`/nature-trails`** - Interactive nature trails with animated SVG paths
-- **`/simple-svg`** - Simple SVG creation tool
-
-## 🧰 Tech Stack
-
-- **Next.js 15** - React framework
-- **GSAP 3.13** - Animation library
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **Radix UI** - UI components
-
-## 📝 Scripts
-
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (default: http://localhost:3000)
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
 
-## 📄 License
+## Environment Variables
 
-Private project for development purposes.
+Copy `.env.example` to `.env.local` and configure:
+
+- `NEXT_PUBLIC_APP_URL` - Your app URL (default: http://localhost:3000)
+- Add other variables as needed for your specific setup
+
+## Demo Pages
+
+- **Home** (`/`) - Main landing page with app overview
+- **Nature Trails** (`/nature-trails`) - Interactive trail animations
+- **Simple SVG** (`/simple-svg`) - Basic SVG manipulation tools
+- **SVG Path Maker** (`/svg-path-maker`) - Advanced SVG path creation
+- **Trailguide Map** (`/trailguide-map`) - Interactive mapping interface
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── globals.css      # Global styles
+│   ├── layout.tsx       # Root layout
+│   └── page.tsx         # Main application page
+├── components/
+│   └── ui/              # shadcn/ui components
+├── lib/
+│   └── utils.ts         # Utility functions
+└── hooks/               # Custom React hooks
+```
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Connect your repository to [Vercel](https://vercel.com)
+3. Deploy with zero configuration
+
+### Other Platforms
+
+This is a standard Next.js application and can be deployed to any platform that supports Node.js:
+
+- Netlify
+- Railway
+- Render
+- AWS Amplify
+- Digital Ocean App Platform
+
+## Customization
+
+### Styling
+
+The app uses Tailwind CSS with a custom configuration. You can modify:
+
+- `tailwind.config.js` - Tailwind configuration
+- `src/app/globals.css` - Global styles
+- `components.json` - shadcn/ui configuration
+
+### Components
+
+All UI components are located in `src/components/ui/` and can be customized or replaced.
+
+## Contributing
+
+This is a standalone application. If you'd like to contribute to the original project, please visit the [trailguide-staging repository](https://github.com/JoshuaShepherd/trailguide-staging).
+
+## License
+
+This project is private and proprietary.
+
+## Support
+
+For questions or issues, please contact the development team.
+
+
+## GSAP Features
+
+This app includes GSAP (GreenSock Animation Platform) for high-performance animations:
+
+- Timeline animations
+- SVG morphing
+- Scroll-triggered animations
+- Interactive elements
+
+### GSAP License
+
+Note: This app uses GSAP. For production use, you may need a commercial license depending on your use case. Visit [greensock.com](https://greensock.com) for licensing information.

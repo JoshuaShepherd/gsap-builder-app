@@ -1,0 +1,225 @@
+// Extracted SVG paths from extended_scroll_trails.svg
+// These can be used with GSAP MotionPathPlugin or other path-based animations
+
+export interface PathData {
+  id: string;
+  d: string;
+  stroke: string;
+  strokeWidth: number;
+  fill: string;
+  strokeLinecap: string;
+  strokeLinejoin: string;
+}
+
+export const extractedPaths: PathData[] = [
+  // First Set: 0-1500px (Blue)
+  {
+    id: "path-0-0",
+    d: "M 174 64 Q 169 70 166 76 Q 162.5 84 159 92 Q 157 150 155 200 Q 154 350 152 500 Q 150 750 148 1000 Q 146 1250 144 1450 L 142 1500",
+    stroke: "#3b82f6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-0-1", 
+    d: "M 313 64 Q 310 100 308 150 Q 306 200 304 300 Q 300 450 295 600 Q 290 750 285 900 Q 280 1050 275 1200 Q 270 1350 268 1450 L 266 1500",
+    stroke: "#3b82f6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-0-2",
+    d: "M 459 64 Q 456 120 454 180 Q 452 250 450 350 Q 448 500 446 650 Q 444 800 442 950 Q 440 1100 438 1250 Q 436 1400 434 1470 L 432 1500",
+    stroke: "#3b82f6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-0-3",
+    d: "M 627 65 Q 625 150 623 250 Q 621 350 619 500 Q 617 650 615 800 Q 613 950 611 1100 Q 609 1250 607 1400 Q 605 1470 603 1500",
+    stroke: "#3b82f6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+
+  // Second Set: 1600-3000px (Red)
+  {
+    id: "path-1-0",
+    d: "M 174 1600 Q 169 1606 166 1612 Q 162.5 1620 159 1628 Q 157 1686 155 1736 Q 154 1886 152 2036 Q 150 2286 148 2536 Q 146 2786 144 2986 L 142 3000",
+    stroke: "#ef4444",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-1-1",
+    d: "M 313 1600 Q 310 1636 308 1686 Q 306 1736 304 1836 Q 300 1986 295 2136 Q 290 2286 285 2436 Q 280 2586 275 2736 Q 270 2886 268 2986 L 266 3000",
+    stroke: "#ef4444",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-1-2",
+    d: "M 459 1600 Q 456 1656 454 1716 Q 452 1786 450 1886 Q 448 2036 446 2186 Q 444 2336 442 2486 Q 440 2636 438 2786 Q 436 2936 434 3006 L 432 3000",
+    stroke: "#ef4444",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-1-3",
+    d: "M 627 1601 Q 625 1686 623 1786 Q 621 1886 619 2036 Q 617 2186 615 2336 Q 613 2486 611 2636 Q 609 2786 607 2936 Q 605 3006 603 3000",
+    stroke: "#ef4444",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+
+  // Third Set: 3100-4500px (Green)
+  {
+    id: "path-2-0",
+    d: "M 174 3100 Q 169 3106 166 3112 Q 162.5 3120 159 3128 Q 157 3186 155 3236 Q 154 3386 152 3536 Q 150 3786 148 4036 Q 146 4286 144 4486 L 142 4500",
+    stroke: "#10b981",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-2-1",
+    d: "M 313 3100 Q 310 3136 308 3186 Q 306 3236 304 3336 Q 300 3486 295 3636 Q 290 3786 285 3936 Q 280 4086 275 4236 Q 270 4386 268 4486 L 266 4500",
+    stroke: "#10b981",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-2-2",
+    d: "M 459 3100 Q 456 3156 454 3216 Q 452 3286 450 3386 Q 448 3536 446 3686 Q 444 3836 442 3986 Q 440 4136 438 4286 Q 436 4436 434 4506 L 432 4500",
+    stroke: "#10b981",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-2-3",
+    d: "M 627 3101 Q 625 3186 623 3286 Q 621 3386 619 3536 Q 617 3686 615 3836 Q 613 3986 611 4136 Q 609 4286 607 4436 Q 605 4506 603 4500",
+    stroke: "#10b981",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+
+  // Fourth Set: 4600-6000px (Purple)
+  {
+    id: "path-3-0",
+    d: "M 174 4600 Q 169 4606 166 4612 Q 162.5 4620 159 4628 Q 157 4686 155 4736 Q 154 4886 152 5036 Q 150 5286 148 5536 Q 146 5786 144 5986 L 142 6000",
+    stroke: "#8b5cf6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-3-1",
+    d: "M 313 4600 Q 310 4636 308 4686 Q 306 4736 304 4836 Q 300 4986 295 5136 Q 290 5286 285 5436 Q 280 5586 275 5736 Q 270 5886 268 5986 L 266 6000",
+    stroke: "#8b5cf6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-3-2",
+    d: "M 459 4600 Q 456 4656 454 4716 Q 452 4786 450 4886 Q 448 5036 446 5186 Q 444 5336 442 5486 Q 440 5636 438 5786 Q 436 5936 434 6006 L 432 6000",
+    stroke: "#8b5cf6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-3-3",
+    d: "M 627 4601 Q 625 4686 623 4786 Q 621 4886 619 5036 Q 617 5186 615 5336 Q 613 5486 611 5636 Q 609 5786 607 5936 Q 605 6006 603 6000",
+    stroke: "#8b5cf6",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+
+  // Fifth Set: 6100-7500px (Orange/Yellow)
+  {
+    id: "path-4-0",
+    d: "M 174 6100 Q 169 6106 166 6112 Q 162.5 6120 159 6128 Q 157 6186 155 6236 Q 154 6386 152 6536 Q 150 6786 148 7036 Q 146 7286 144 7486 L 142 7500",
+    stroke: "#f59e0b",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-4-1",
+    d: "M 313 6100 Q 310 6136 308 6186 Q 306 6236 304 6336 Q 300 6486 295 6636 Q 290 6786 285 6936 Q 280 7086 275 7236 Q 270 7386 268 7486 L 266 7500",
+    stroke: "#f59e0b",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-4-2",
+    d: "M 459 6100 Q 456 6156 454 6216 Q 452 6286 450 6386 Q 448 6536 446 6686 Q 444 6836 442 6986 Q 440 7136 438 7286 Q 436 7436 434 7506 L 432 7500",
+    stroke: "#f59e0b",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  },
+  {
+    id: "path-4-3",
+    d: "M 627 6101 Q 625 6186 623 6286 Q 621 6386 619 6536 Q 617 6686 615 6836 Q 613 6986 611 7136 Q 609 7286 607 7436 Q 605 7506 603 7500",
+    stroke: "#f59e0b",
+    strokeWidth: 3,
+    fill: "none",
+    strokeLinecap: "round",
+    strokeLinejoin: "round"
+  }
+];
+
+// Helper function to get paths by section
+export const getPathsBySection = (sectionIndex: number): PathData[] => {
+  return extractedPaths.filter(path => path.id.startsWith(`path-${sectionIndex}-`));
+};
+
+// Helper function to get just the path data strings
+export const getPathDataStrings = (): string[] => {
+  return extractedPaths.map(path => path.d);
+};
+
+// Helper function to get paths grouped by color/section
+export const getGroupedPaths = () => {
+  return {
+    blue: getPathsBySection(0),    // First set
+    red: getPathsBySection(1),     // Second set  
+    green: getPathsBySection(2),   // Third set
+    purple: getPathsBySection(3),  // Fourth set
+    orange: getPathsBySection(4)   // Fifth set
+  };
+};
