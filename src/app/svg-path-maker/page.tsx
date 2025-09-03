@@ -525,18 +525,18 @@ gsap.fromTo(".animated-path",
                     SVG Path Data
                   </label>
                   <Textarea
-                    placeholder="M 50 50 L 200 100 Q 300 150 400 200..."
+                    placeholder="M 174 64 Q 169 70 166 76 Q 162.5 84 159 92...&#10;&#10;Enter SVG path data or click sample trails below"
                     value={manualPathData}
                     onChange={(e) => setManualPathData(e.target.value)}
                     className="bg-white min-h-[80px] font-mono text-sm"
                     disabled={false}
                   />
                   <p className="text-xs text-green-600 mt-1">
-                    Enter standard SVG path commands (M, L, C, Q, etc.)
+                    Enter standard SVG path commands (M, L, C, Q, etc.) or try the sample trails below
                   </p>
                 </div>
                 
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   <Button
                     onClick={addManualPath}
                     disabled={!manualPathData.trim()}
@@ -545,14 +545,46 @@ gsap.fromTo(".animated-path",
                     <Zap className="h-4 w-4" />
                     Add Path
                   </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => setManualPathData('M 100 100 Q 200 50 300 100 T 500 100')}
-                    className="flex items-center gap-2"
-                  >
-                    <Square className="h-4 w-4" />
-                    Sample Path
-                  </Button>
+                  
+                  <div className="flex gap-1 flex-wrap">
+                    <Button
+                      variant="outline"
+                      onClick={() => setManualPathData('M 174 64 Q 169 70 166 76 Q 162.5 84 159 92 Q 157 150 155 200 Q 154 350 152 500 Q 150 750 148 1000 Q 146 1250 144 1450 L 142 1500')}
+                      className="flex items-center gap-2 text-xs"
+                      size="sm"
+                    >
+                      <Square className="h-3 w-3" />
+                      Trail 1
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setManualPathData('M 313 64 Q 310 100 308 150 Q 306 200 304 300 Q 300 450 295 600 Q 290 750 285 900 Q 280 1050 275 1200 Q 270 1350 268 1450 L 266 1500')}
+                      className="flex items-center gap-2 text-xs"
+                      size="sm"
+                    >
+                      <Square className="h-3 w-3" />
+                      Trail 2
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setManualPathData('M 459 64 Q 456 120 454 180 Q 452 250 450 350 Q 448 500 446 650 Q 444 800 442 950 Q 440 1100 438 1250 Q 436 1400 434 1470 L 432 1500')}
+                      className="flex items-center gap-2 text-xs"
+                      size="sm"
+                    >
+                      <Square className="h-3 w-3" />
+                      Trail 3
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => setManualPathData('M 627 65 Q 625 150 623 250 Q 621 350 619 500 Q 617 650 615 800 Q 613 950 611 1100 Q 609 1250 607 1400 Q 605 1470 603 1500')}
+                      className="flex items-center gap-2 text-xs"
+                      size="sm"
+                    >
+                      <Square className="h-3 w-3" />
+                      Trail 4
+                    </Button>
+                  </div>
+                  
                   <Button
                     variant="outline"
                     onClick={() => setManualPathData('')}
