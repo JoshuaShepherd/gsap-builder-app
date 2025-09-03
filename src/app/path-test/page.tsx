@@ -9,65 +9,111 @@ import { extractedPaths, getPathsBySection } from "@/utils/extracted-paths";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function PathTestPage() {
-  const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const svgRefs = useRef<(SVGSVGElement | null)[]>([]);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current) return;
+    if (!containerRef.current) return;
 
-    // Get path sections based on the extracted data structure
+    // Define path sections with their scroll ranges
     const pathSections = [
-      { paths: getPathsBySection(0), startY: 0, endY: 1500, name: "Blue" },
-      { paths: getPathsBySection(1), startY: 1600, endY: 3000, name: "Red" },
-      { paths: getPathsBySection(2), startY: 3100, endY: 4500, name: "Green" },
-      { paths: getPathsBySection(3), startY: 4600, endY: 6000, name: "Purple" },
-      { paths: getPathsBySection(4), startY: 6100, endY: 7500, name: "Orange" }
+      { 
+        paths: getPathsBySection(0), 
+        startScroll: 100, 
+        endScroll: 1500, 
+        name: "Blue",
+        color: "#3b82f6"
+      },
+      { 
+        paths: getPathsBySection(1), 
+        startScroll: 1600, 
+        endScroll: 3000, 
+        name: "Red",
+        color: "#ef4444"
+      },
+      { 
+        paths: getPathsBySection(2), 
+        startScroll: 3100, 
+        endScroll: 4500, 
+        name: "Green",
+        color: "#10b981"
+      },
+      { 
+        paths: getPathsBySection(3), 
+        startScroll: 4600, 
+        endScroll: 6000, 
+        name: "Purple",
+        color: "#8b5cf6"
+      },
+      { 
+        paths: getPathsBySection(4), 
+        startScroll: 6100, 
+        endScroll: 7500, 
+        name: "Orange",
+        color: "#f59e0b"
+      }
     ];
 
-    // Initialize all paths to be invisible
-    const allPaths = svgRef.current.querySelectorAll("path");
-    allPaths.forEach((path) => {
-      const pathLength = path.getTotalLength();
-      gsap.set(path, {
-        strokeDasharray: pathLength,
-        strokeDashoffset: pathLength,
-        opacity: 0
-      });
-    });
-
-    // Create scroll triggers for each section based on their Y positions
+    // Create ScrollTrigger for each section
     pathSections.forEach((section, sectionIndex) => {
-      section.paths.forEach((pathData, pathIndex) => {
-        const pathElement = svgRef.current?.querySelector(`#${pathData.id}`) as SVGPathElement;
-        if (!pathElement) return;
+      const svgElement = svgRefs.current[sectionIndex];
+      if (!svgElement) return;
 
-        const pathLength = pathElement.getTotalLength();
-        
-        // Calculate scroll trigger positions based on SVG Y coordinates
-        // Map SVG coordinates (0-7500) to scroll positions
-        const scrollStart = section.startY;
-        const scrollEnd = section.endY;
-        const sectionHeight = 400; // Height per section in vh
-        
-        ScrollTrigger.create({
-          trigger: containerRef.current,
-          start: `${scrollStart}px top`,
-          end: `${scrollEnd}px top`,
-          scrub: 1,
-          onEnter: () => {
-            gsap.set(pathElement, { opacity: 1 });
-          },
-          onUpdate: (self) => {
-            const progress = self.progress;
-            
-            // Animate path drawing based on progress
-            gsap.set(pathElement, {
-              strokeDashoffset: pathLength * (1 - progress)
-            });
-          },
-          // markers: true, // Uncomment for debugging
-          id: `path-${pathData.id}`
+      const paths = svgElement.querySelectorAll("path") as NodeListOf<SVGPathElement>;
+      
+      // Initialize all paths in this section to be invisible and not drawn
+      paths.forEach((path) => {
+        const pathLength = path.getTotalLength();
+        gsap.set(path, {
+          strokeDasharray: pathLength,
+          strokeDashoffset: pathLength,
+          opacity: 0
         });
+      });
+
+      // Create ScrollTrigger for this entire section
+      ScrollTrigger.create({
+        trigger: containerRef.current,
+        start: `${section.startScroll}px top`,
+        end: `${section.endScroll}px top`,
+        scrub: 1,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          
+          // Show/hide the entire SVG based on scroll position
+          gsap.set(svgElement, {
+            opacity: progress > 0 && progress < 1 ? 1 : 0,
+            display: progress > 0 && progress < 1 ? "block" : "none"
+          });
+
+          // Draw paths progressively based on scroll progress
+          paths.forEach((path, pathIndex) => {
+            const pathLength = path.getTotalLength();
+            const pathProgress = Math.max(0, Math.min(1, progress * paths.length - pathIndex));
+            
+            gsap.set(path, {
+              opacity: pathProgress > 0 ? 1 : 0,
+              strokeDashoffset: pathLength * (1 - pathProgress)
+            });
+          });
+        },
+        onEnter: () => {
+          console.log(`Entering ${section.name} section`);
+        },
+        onLeave: () => {
+          console.log(`Leaving ${section.name} section`);
+          // Hide the SVG when leaving the section
+          gsap.set(svgElement, { opacity: 0, display: "none" });
+        },
+        onEnterBack: () => {
+          console.log(`Re-entering ${section.name} section`);
+        },
+        onLeaveBack: () => {
+          console.log(`Leaving ${section.name} section backwards`);
+          gsap.set(svgElement, { opacity: 0, display: "none" });
+        },
+        // markers: true, // Uncomment for debugging
+        id: `section-${sectionIndex}`
       });
     });
 
@@ -79,52 +125,81 @@ export default function PathTestPage() {
 
   return (
     <div className="bg-white min-h-screen">
-      {/* Main container with proper height for all scroll positions */}
+      {/* Scroll container with proper height */}
       <div 
         ref={containerRef} 
         className="relative"
-        style={{ height: "7500px" }} // Match the SVG height for proper scroll mapping
+        style={{ height: "7600px" }} // Extra height to accommodate all sections
       >
-        {/* Fixed/Sticky SVG Container */}
-        <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center pointer-events-none">
-          <svg
-            ref={svgRef}
-            width="1000"
-            height="7500"
-            viewBox="0 0 1000 7500"
-            className="w-full h-full max-w-screen-lg"
-            style={{ 
-              background: "transparent"
-            }}
-            preserveAspectRatio="xMidYMid meet"
-          >
-            {/* Render all extracted paths */}
-            {extractedPaths.map((pathData) => (
-              <path
-                key={pathData.id}
-                id={pathData.id}
-                d={pathData.d}
-                stroke={pathData.stroke}
-                strokeWidth={pathData.strokeWidth}
-                fill={pathData.fill}
-                strokeLinecap={pathData.strokeLinecap as any}
-                strokeLinejoin={pathData.strokeLinejoin as any}
-                style={{
-                  vectorEffect: "non-scaling-stroke"
-                }}
-              />
-            ))}
-          </svg>
+        
+        {/* Section indicators - fixed position for debugging */}
+        <div className="fixed right-4 top-20 bg-black/80 text-white p-3 rounded-lg text-sm font-mono z-50">
+          <div className="font-bold mb-2">Scroll Sections:</div>
+          <div className="text-blue-400">100-1500px: Blue paths</div>
+          <div className="text-red-400">1600-3000px: Red paths</div>
+          <div className="text-green-400">3100-4500px: Green paths</div>
+          <div className="text-purple-400">4600-6000px: Purple paths</div>
+          <div className="text-orange-400">6100-7500px: Orange paths</div>
         </div>
 
-        {/* Scroll indicators (optional - for debugging) */}
-        <div className="absolute right-4 top-4 bg-black/10 p-2 rounded text-sm font-mono">
-          <div>Scroll to see paths draw:</div>
-          <div className="text-blue-600">0px: Blue paths</div>
-          <div className="text-red-600">1600px: Red paths</div>
-          <div className="text-green-600">3100px: Green paths</div>
-          <div className="text-purple-600">4600px: Purple paths</div>
-          <div className="text-orange-600">6100px: Orange paths</div>
+        {/* Create separate SVG containers for each section */}
+        {[
+          { paths: getPathsBySection(0), name: "Blue" },
+          { paths: getPathsBySection(1), name: "Red" },
+          { paths: getPathsBySection(2), name: "Green" },
+          { paths: getPathsBySection(3), name: "Purple" },
+          { paths: getPathsBySection(4), name: "Orange" }
+        ].map((section, sectionIndex) => (
+          <div
+            key={sectionIndex}
+            className="fixed top-0 left-0 w-full h-screen flex items-center justify-center pointer-events-none"
+            style={{ display: "none" }} // Initially hidden
+          >
+            <svg
+              ref={(el) => {svgRefs.current[sectionIndex] = el;}}
+              width="1000"
+              height="1500"
+              viewBox="0 0 1000 1500"
+              className="w-full h-full max-w-4xl"
+              style={{ 
+                background: "transparent"
+              }}
+              preserveAspectRatio="xMidYMid meet"
+            >
+              {/* Render paths for this section */}
+              {section.paths.map((pathData) => (
+                <path
+                  key={pathData.id}
+                  id={pathData.id}
+                  d={pathData.d}
+                  stroke={pathData.stroke}
+                  strokeWidth={pathData.strokeWidth}
+                  fill={pathData.fill}
+                  strokeLinecap={pathData.strokeLinecap as any}
+                  strokeLinejoin={pathData.strokeLinejoin as any}
+                  style={{
+                    vectorEffect: "non-scaling-stroke"
+                  }}
+                />
+              ))}
+            </svg>
+            
+            {/* Section title overlay */}
+            <div className="absolute top-8 left-8 bg-black/20 px-3 py-1 rounded text-lg font-bold" 
+                 style={{ color: section.paths[0]?.stroke || '#000' }}>
+              {section.name} Paths Drawing
+            </div>
+          </div>
+        ))}
+
+        {/* Initial instruction at the top */}
+        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 text-center z-10">
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">
+            GSAP Path Drawing - Scroll Based
+          </h1>
+          <p className="text-gray-600">
+            Scroll down to see each set of 4 paths draw progressively
+          </p>
         </div>
       </div>
     </div>
