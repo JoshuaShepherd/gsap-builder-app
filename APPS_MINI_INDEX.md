@@ -46,4 +46,4 @@ npm install
 npm run dev  # http://localhost:3000 (or next available port)
 ```
 
-**Updated**: September 3, 2025
+**Updated**: September 3, 2025 - Extended dimension limits to 2500px
