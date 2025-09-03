@@ -13,7 +13,8 @@
 
 #### Recent Improvements ✨
 - **Enhanced SVG Path Maker**: Full-width responsive canvas with precise dimension controls
-- **Text Input Controls**: Replace sliders with direct text input (Width: 800-2400px, Height: 300-1200px)
+- **Extended Dimension Range**: Canvas now supports up to 2500px for both width and height
+- **Text Input Controls**: Direct numeric input (Width: 800-2500px, Height: 300-2500px)
 - **Improved UX**: Canvas dimensions moved above drawing area for better workflow
 - **Fixed Coordinate System**: Crosshairs now perfectly correlate to path drawing location
 - **Responsive Design**: Canvas scales properly while maintaining accurate SVG coordinate space
