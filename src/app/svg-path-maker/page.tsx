@@ -6,6 +6,7 @@ import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
 import { useGSAP } from '@gsap/react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -130,6 +131,8 @@ export default function SVGPathMaker() {
   const [customStyle, setCustomStyle] = useState<PathStyle>(PRESET_STYLES[0])
   const [animationSpeed, setAnimationSpeed] = useState(2)
   const [showPreview, setShowPreview] = useState(false)
+  const [canvasHeight, setCanvasHeight] = useState(500)
+  const [canvasWidth, setCanvasWidth] = useState(1200)
 
   // Convert points to SVG path data
   const pointsToPath = useCallback((points: Point[]): string => {
@@ -162,26 +165,26 @@ export default function SVGPathMaker() {
     if (!canvasRef.current) return
     
     const rect = canvasRef.current.getBoundingClientRect()
-    const point = {
-      x: Math.round(e.clientX - rect.left),
-      y: Math.round(e.clientY - rect.top)
+    const svgPoint = {
+      x: Math.round(((e.clientX - rect.left) / rect.width) * canvasWidth),
+      y: Math.round(((e.clientY - rect.top) / rect.height) * canvasHeight)
     }
     
     setIsDrawing(true)
-    setCurrentTrail([point])
-  }, [])
+    setCurrentTrail([svgPoint])
+  }, [canvasWidth, canvasHeight])
 
   const handleMouseMove = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
     if (!isDrawing || !canvasRef.current) return
     
     const rect = canvasRef.current.getBoundingClientRect()
-    const point = {
-      x: Math.round(e.clientX - rect.left),
-      y: Math.round(e.clientY - rect.top)
+    const svgPoint = {
+      x: Math.round(((e.clientX - rect.left) / rect.width) * canvasWidth),
+      y: Math.round(((e.clientY - rect.top) / rect.height) * canvasHeight)
     }
     
-    setCurrentTrail(prev => [...prev, point])
-  }, [isDrawing])
+    setCurrentTrail(prev => [...prev, svgPoint])
+  }, [isDrawing, canvasWidth, canvasHeight])
 
   const handleMouseUp = useCallback(() => {
     if (!isDrawing || currentTrail.length < 2) {
@@ -224,10 +227,10 @@ export default function SVGPathMaker() {
       return `  <path id="path-${index}" d="${trail.pathData}" ${styleProps} />`
     }).join('\n')
     
-    return `<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+    return `<svg width="${canvasWidth}" height="${canvasHeight}" viewBox="0 0 ${canvasWidth} ${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
 ${svgContent}
 </svg>`
-  }, [trails])
+  }, [trails, canvasWidth, canvasHeight])
 
   // Generate path coordinates info
   const generatePathInfo = useCallback(() => {
@@ -381,6 +384,73 @@ gsap.fromTo(".animated-path",
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
           {/* Drawing Canvas */}
           <div className="xl:col-span-2 space-y-6">
+            {/* Canvas Dimensions */}
+            <Card className="shadow-lg border-0 bg-blue-50/90 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-blue-900">
+                  <Settings className="h-5 w-5 text-blue-600" />
+                  Canvas Dimensions
+                </CardTitle>
+                <CardDescription>
+                  Set your canvas size before drawing. Clear all paths to change dimensions.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-blue-800">
+                      Width (px)
+                    </label>
+                    <Input
+                      type="number"
+                      value={canvasWidth}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value) || 800
+                        if (value >= 800 && value <= 2400) {
+                          setCanvasWidth(value)
+                        }
+                      }}
+                      min={800}
+                      max={2400}
+                      step={100}
+                      disabled={trails.length > 0}
+                      className="bg-white"
+                    />
+                    <p className="text-xs text-blue-600 mt-1">Range: 800-2400px</p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block text-blue-800">
+                      Height (px)
+                    </label>
+                    <Input
+                      type="number"
+                      value={canvasHeight}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value) || 300
+                        if (value >= 300 && value <= 1200) {
+                          setCanvasHeight(value)
+                        }
+                      }}
+                      min={300}
+                      max={1200}
+                      step={50}
+                      disabled={trails.length > 0}
+                      className="bg-white"
+                    />
+                    <p className="text-xs text-blue-600 mt-1">Range: 300-1200px</p>
+                  </div>
+                </div>
+                {trails.length > 0 && (
+                  <div className="mt-4 p-3 bg-blue-100 rounded-lg">
+                    <p className="text-sm text-blue-800 flex items-center gap-2">
+                      <Square className="h-4 w-4" />
+                      Clear all paths to adjust canvas dimensions
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
             <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3">
@@ -396,8 +466,8 @@ gsap.fromTo(".animated-path",
                   <svg
                     ref={canvasRef}
                     width="100%"
-                    height="500"
-                    viewBox="0 0 800 500"
+                    height={canvasHeight}
+                    viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
                     className="border-2 border-dashed border-gray-300 rounded-lg bg-white cursor-crosshair"
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
@@ -476,7 +546,7 @@ gsap.fromTo(".animated-path",
                   </div>
                   
                   <div className="text-sm text-gray-500">
-                    Canvas: 800×500px • {trails.length} paths
+                    Canvas: {canvasWidth}×{canvasHeight}px • {trails.length} paths
                   </div>
                 </div>
               </CardContent>
@@ -497,8 +567,8 @@ gsap.fromTo(".animated-path",
                 <CardContent>
                   <svg
                     width="100%"
-                    height="400"
-                    viewBox="0 0 800 500"
+                    height={Math.min(400, canvasHeight)}
+                    viewBox={`0 0 ${canvasWidth} ${canvasHeight}`}
                     className="border rounded-lg bg-gray-900"
                   >
                     {trails.map((trail, index) => (
