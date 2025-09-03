@@ -8,8 +8,21 @@
 - **Package Manager**: npm
 - **Node Version**: v20.19.2 (LTS)
 - **Build Status**: ✅ SUCCESS
-- **Dev Status**: ✅ SUCCESS
+- **Dev Status**: ✅ SUCCESS (http://localhost:3002)
 - **Description**: Interactive GSAP animation builder with visual interface, nature trails journey, and SVG creation tools
+
+#### Recent Improvements ✨
+- **Enhanced SVG Path Maker**: Full-width responsive canvas with precise dimension controls
+- **Text Input Controls**: Replace sliders with direct text input (Width: 800-2400px, Height: 300-1200px)
+- **Improved UX**: Canvas dimensions moved above drawing area for better workflow
+- **Fixed Coordinate System**: Crosshairs now perfectly correlate to path drawing location
+- **Responsive Design**: Canvas scales properly while maintaining accurate SVG coordinate space
+
+#### Featured Pages
+- **`/`** - Main GSAP Animation Builder
+- **`/svg-path-maker`** - Interactive SVG path creation tool (newly enhanced)
+- **`/nature-trails`** - Animated nature trails with scroll triggers
+- **`/simple-svg`** - Simple SVG manipulation interface
 
 ## Status Summary
 
@@ -29,5 +42,7 @@
 git clone https://github.com/JoshuaShepherd/gsap-builder-app.git
 cd gsap-builder-app
 npm install
-npm run dev  # http://localhost:3000
+npm run dev  # http://localhost:3000 (or next available port)
 ```
+
+**Updated**: September 3, 2025
