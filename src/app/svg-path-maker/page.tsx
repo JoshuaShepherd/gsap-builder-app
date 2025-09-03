@@ -7,6 +7,7 @@ import { useGSAP } from '@gsap/react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -133,6 +134,7 @@ export default function SVGPathMaker() {
   const [showPreview, setShowPreview] = useState(false)
   const [canvasHeight, setCanvasHeight] = useState(500)
   const [canvasWidth, setCanvasWidth] = useState(1200)
+  const [manualPathData, setManualPathData] = useState('')
 
   // Convert points to SVG path data
   const pointsToPath = useCallback((points: Point[]): string => {
@@ -349,6 +351,61 @@ gsap.fromTo(".animated-path",
     })
   }, [])
 
+  // Add path from manual SVG path data
+  const addManualPath = useCallback(() => {
+    if (!manualPathData.trim()) {
+      toast.error('Please enter SVG path data')
+      return
+    }
+
+    // Basic validation for SVG path data
+    const pathDataRegex = /^[MmLlHhVvCcSsQqTtAaZz0-9\s,.-]+$/
+    if (!pathDataRegex.test(manualPathData.trim())) {
+      toast.error('Invalid SVG path data format')
+      return
+    }
+
+    // Generate approximate points for display (simplified - real implementation would parse the path)
+    const approximatePoints: Point[] = []
+    // For demonstration, we'll create a few sample points
+    // In a real implementation, you'd parse the SVG path and extract actual coordinates
+    try {
+      // Simple approach: extract numbers from path data as approximate coordinates
+      const numbers = manualPathData.match(/[\d.-]+/g)?.map(n => parseFloat(n)) || []
+      
+      for (let i = 0; i < numbers.length - 1; i += 2) {
+        if (numbers[i] !== undefined && numbers[i + 1] !== undefined) {
+          approximatePoints.push({
+            x: Math.max(0, Math.min(canvasWidth, numbers[i])),
+            y: Math.max(0, Math.min(canvasHeight, numbers[i + 1]))
+          })
+        }
+      }
+
+      if (approximatePoints.length < 2) {
+        // Fallback: create a simple line if we can't extract enough points
+        approximatePoints.push({ x: 50, y: 50 }, { x: 200, y: 200 })
+      }
+    } catch (error) {
+      // Fallback for any parsing errors
+      approximatePoints.push({ x: 50, y: 50 }, { x: 200, y: 200 })
+    }
+
+    const newTrail: Trail = {
+      id: `manual-trail-${Date.now()}`,
+      points: approximatePoints,
+      pathData: manualPathData.trim(),
+      style: { ...customStyle }
+    }
+
+    setTrails(prev => [...prev, newTrail])
+    setManualPathData('')
+    
+    toast.success('Manual path added!', {
+      description: `Added path with custom SVG data`
+    })
+  }, [manualPathData, customStyle, canvasWidth, canvasHeight])
+
   const svgCode = generateSVGCode()
   const gsapCode = generateGSAPCode()
   const pathInfo = generatePathInfo()
@@ -366,7 +423,7 @@ gsap.fromTo(".animated-path",
             <Zap className="h-10 w-10 text-purple-600" />
           </div>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Draw trails on the canvas to create SVG paths with GSAP animations. 
+            Draw trails on the canvas or enter SVG path data directly to create SVG paths with GSAP animations. 
             Customize styles, generate code, and export your creations.
           </p>
           <div className="flex items-center justify-center gap-4 mt-4">
@@ -451,6 +508,73 @@ gsap.fromTo(".animated-path",
               </CardContent>
             </Card>
 
+            {/* Manual SVG Path Input */}
+            <Card className="shadow-lg border-0 bg-green-50/90 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-green-900">
+                  <Code2 className="h-5 w-5 text-green-600" />
+                  Manual SVG Path Input
+                </CardTitle>
+                <CardDescription>
+                  Enter SVG path data directly for precise control or to import existing paths.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium mb-2 block text-green-800">
+                    SVG Path Data
+                  </label>
+                  <Textarea
+                    placeholder="M 50 50 L 200 100 Q 300 150 400 200..."
+                    value={manualPathData}
+                    onChange={(e) => setManualPathData(e.target.value)}
+                    className="bg-white min-h-[80px] font-mono text-sm"
+                    disabled={false}
+                  />
+                  <p className="text-xs text-green-600 mt-1">
+                    Enter standard SVG path commands (M, L, C, Q, etc.)
+                  </p>
+                </div>
+                
+                <div className="flex gap-2">
+                  <Button
+                    onClick={addManualPath}
+                    disabled={!manualPathData.trim()}
+                    className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                  >
+                    <Zap className="h-4 w-4" />
+                    Add Path
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setManualPathData('M 100 100 Q 200 50 300 100 T 500 100')}
+                    className="flex items-center gap-2"
+                  >
+                    <Square className="h-4 w-4" />
+                    Sample Path
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => setManualPathData('')}
+                    disabled={!manualPathData.trim()}
+                    className="flex items-center gap-2"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    Clear Input
+                  </Button>
+                </div>
+                
+                {manualPathData.trim() && (
+                  <div className="mt-4 p-3 bg-green-100 rounded-lg">
+                    <p className="text-sm text-green-800 mb-2 font-medium">Preview:</p>
+                    <pre className="text-xs text-green-700 bg-white p-2 rounded overflow-auto max-h-20">
+                      {manualPathData.trim()}
+                    </pre>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
             <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3">
@@ -458,7 +582,7 @@ gsap.fromTo(".animated-path",
                   Drawing Canvas
                 </CardTitle>
                 <CardDescription>
-                  Click and drag to draw paths. Each stroke creates a new SVG path.
+                  Click and drag to draw paths visually. Each stroke creates a new SVG path.
                 </CardDescription>
               </CardHeader>
               <CardContent>
