@@ -5,6 +5,8 @@ A powerful Next.js application for creating and testing GSAP animations with a c
 ## ✨ Features
 
 - **Interactive Animation Builder**: Create GSAP animations with a visual interface
+- **Dual-Method SVG Path Creation**: Draw paths visually or enter SVG code directly
+- **Manual SVG Path Input**: Direct code input with validation and sample paths
 - **Nature Trails Journey**: Animated SVG trails with scroll-triggered animations
 - **Simple SVG Builder**: Create and manipulate SVG elements with GSAP
 - **Real-time Preview**: See animations as you build them
@@ -67,6 +69,7 @@ Currently, this application doesn't require any environment variables for basic 
 ## 🎯 Pages
 
 - **`/`** - Main GSAP Animation Builder
+- **`/svg-path-maker`** - Interactive SVG path creation tool with dual input methods (visual drawing + manual SVG code)
 - **`/nature-trails`** - Interactive nature trails with animated SVG paths
 - **`/simple-svg`** - Simple SVG creation tool
 

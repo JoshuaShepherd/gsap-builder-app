@@ -12,6 +12,8 @@
 - **Description**: Interactive GSAP animation builder with visual interface, nature trails journey, and SVG creation tools
 
 #### Recent Improvements ✨
+- **Dual Path Creation Methods**: Draw visually OR enter SVG path data manually
+- **Manual SVG Path Input**: Direct textarea input with validation and sample paths
 - **Enhanced SVG Path Maker**: Full-width responsive canvas with precise dimension controls
 - **Extended Dimension Range**: Canvas now supports up to 2500px for both width and height
 - **Text Input Controls**: Direct numeric input (Width: 800-2500px, Height: 300-2500px)
@@ -21,7 +23,7 @@
 
 #### Featured Pages
 - **`/`** - Main GSAP Animation Builder
-- **`/svg-path-maker`** - Interactive SVG path creation tool (newly enhanced)
+- **`/svg-path-maker`** - Interactive SVG path creation tool with dual input methods (drawing + manual SVG)
 - **`/nature-trails`** - Animated nature trails with scroll triggers
 - **`/simple-svg`** - Simple SVG manipulation interface
 
@@ -46,4 +48,4 @@ npm install
 npm run dev  # http://localhost:3000 (or next available port)
 ```
 
-**Updated**: September 3, 2025 - Extended dimension limits to 2500px
+**Updated**: September 3, 2025 - Added manual SVG path input alongside drawing functionality
